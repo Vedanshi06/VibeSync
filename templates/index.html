@@ -1,112 +1,81 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VibeSync: Feel, Gesture, Hum – Your Music, Your Way!</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibeSync: Feel, Gesture, Hum – Your Music, Your Way!</title>
 
-    <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" />
-    <link href="{{ url_for('static', filename='css/navbar.css') }}" media="screen and (min-width: 1100px)" rel="stylesheet" />
-    <link rel="stylesheet" media="screen and (max-width: 1100px)" href="{{ url_for('static', filename='css/responsive.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
-    <style>
-        /* Additional styling for the welcome message */
-        .welcome-message {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            color: #ececec;
-            font-size: 1.2em;
-            font-weight: bold;
-            z-index: 1000;
-        }
-    </style>
+  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/navbar.css') }}" media="screen and (min-width: 1100px)" rel="stylesheet" />
+  <link rel="stylesheet" media="screen and (max-width: 1100px)" href="{{ url_for('static', filename='css/responsive.css') }}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
 </head>
 
 <body>
-    <nav class="navbar">
-        <ul class="navbar-nav">
-            <li class="logo">
-                <a class="nav-link" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('static', filename='resources/images.jpeg') }}" alt="VibeSync Logo"/>
-                    <span class="link-text">VibeSync</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('index') }}">
-                    <img src="{{ url_for('static', filename='icons/home.svg') }}" alt="Home" />
-                    <span class="link-text">Home</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('about') }}">
-                    <img src="{{ url_for('static', filename='icons/about.svg') }}" alt="About us" />
-                    <span class="link-text">About us</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('library') }}">
-                    <img src="{{ url_for('static', filename='icons/library.svg') }}" alt="Library" />
-                    <span class="link-text">Library</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('playlist') }}">
-                    <img src="{{ url_for('static', filename='icons/like.svg') }}" alt="Playlist" />
-                    <span class="link-text">Playlist</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+  <nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="logo">
+        <a class="nav-link" href="{{ url_for('index') }}">
+          <img src="{{ url_for('static', filename='resources/images.jpeg') }}" alt="VibeSync Logo" />
+          <span class="link-text">VibeSync</span>
+        </a>
+      </li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='icons/home.svg') }}" alt="Home" /><span class="link-text">Home</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('about') }}"><img src="{{ url_for('static', filename='icons/about.svg') }}" alt="About us" /><span class="link-text">About us</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('library') }}"><img src="{{ url_for('static', filename='icons/library.svg') }}" alt="Library" /><span class="link-text">Library</span></a></li>
+      <li class="nav-item"><a class="nav-link" href="{{ url_for('playlist') }}"><img src="{{ url_for('static', filename='icons/like.svg') }}" alt="Playlist" /><span class="link-text">Playlist</span></a></li>
+    </ul>
+  </nav>
 
-    <div class="welcome-message" id="welcomeMessage"></div>
+  <main>
+    <h1 class="margin">Your Music, Your Way!</h1>
 
-    <main>
-        <h1 class="margin">Your Music, Your Way!</h1>
-        <div class="container margin">
-            <div class="songlist">
-                {% for song in songs %}
-                <div class="songitem">
-                    <img src="{{ url_for('static', filename=song.cover_url) }}" alt="{{ song.name }}" />
-                    <span class="songName">{{ song.name }}</span>
-                    <span class="songlistplay">
-                        <i id="play-{{ loop.index0 }}" class="far songItemPlay fa-play-circle" onclick="playSong({{ loop.index0 }})"></i>
-                    </span>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </main>
-    <div class="bottom">
-        <input type="range" id="ProgressBar" value="0" min="0" max="100">
-        <div class="controls">
-            <img src="{{ url_for('static', filename='resources/playing.gif') }}" width="75" height="35" id="gif" style="opacity: 0;">
-            <span id="masterSongName">Let me Love You</span>
-            
-            <i class="fas fa-2x fa-step-backward" id="previous"></i>
-            <i class="far fa-2x fa-play-circle" id="masterPlay"></i>
-            <i class="fas fa-2x fa-step-forward" id="next"></i>
-            <i class="fas fa-volume-up" id="volumeIcon"></i>
-            <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="1">
-        </div>
-
+    <div style="margin: 1rem;">
+      <input type="text" id="searchBar" placeholder="Search for a song..." style="padding: 0.5rem; width: 60%;" />
+      <button id="voiceBtn" style="padding: 0.5rem;"><i class="fas fa-microphone"></i></button>
     </div>
-    <script>
-        const songs = [
-            {% for song in songs %}
-            {
-                name: "{{ song.name }}",
-                file_url: "{{ song.file_url }}",
-                cover_path: "{{ song.cover_url }}"
-            }{% if not loop.last %},{% endif %}
-            {% endfor %}
-        ];
-    </script>    
-    <script src="https://kit.fontawesome.com/d5b2540b36.js" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
 
+    <div class="container margin">
+      <div class="songlist">
+        {% for song in songs %}
+        <div class="songitem">
+          <img src="{{ url_for('static', filename=song.cover_url) }}" alt="{{ song.name }}" class="songImage" />
+          <span class="songName">{{ song.name }}</span>
+          <span class="songlistplay">
+            <i id="play-{{ loop.index0 }}" class="far songItemPlay fa-play-circle" onclick="playSong({{ loop.index0 }})"></i>
+          </span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <div class="bottom">
+    <input type="range" id="ProgressBar" value="0" min="0" max="100" />
+    <div class="controls">
+      <img src="{{ url_for('static', filename='resources/playing.gif') }}" width="75" height="35" id="gif" style="opacity: 0;" />
+      <span id="masterSongName">Let me Love You</span>
+      <i class="fas fa-2x fa-step-backward" id="previous"></i>
+      <i class="far fa-2x fa-play-circle" id="masterPlay"></i>
+      <i class="fas fa-2x fa-step-forward" id="next"></i>
+      <i class="fas fa-volume-up" id="volumeIcon"></i>
+      <input type="range" id="volumeBar" min="0" max="1" step="0.01" value="1" />
+    </div>
+  </div>
+
+  <script>
+    const songs = [
+      {% for song in songs %}
+      {
+        name: "{{ song.name }}",
+        file_url: "{{ song.file_url }}",
+        cover_path: "{{ song.cover_url }}"
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ];
+  </script>
+  <script src="https://kit.fontawesome.com/d5b2540b36.js" crossorigin="anonymous"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
 </html>
