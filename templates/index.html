@@ -64,6 +64,19 @@
     </div>
   </div>
 
+    <!-- Add inside <body>, just before </body> -->
+  <button id="humBtn" style="position: fixed; bottom: 120px; right: 20px; background: transparent; border: none; cursor: pointer;">
+    <img src="{{ url_for('static', filename='icons/hum_button.svg') }}" alt="Hum Button" width="60" height="60" />
+  </button>
+
+
+  <div id="result" style="position: fixed; bottom: 190px; right: 20px; background: #fff; padding: 10px; border-radius: 5px; display: none; box-shadow: 0 0 10px rgba(0,0,0,0.2); color: black;">
+    <span id="songResult">Listening...</span>
+  </div>
+
+
+
+
   <script>
     const songs = [
       {% for song in songs %}

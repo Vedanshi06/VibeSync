@@ -234,6 +234,30 @@ function processVoiceCommand(command) {
     updateMasterIcon();
   }
 }
+document.addEventListener("DOMContentLoaded", function () {
+  const humBtn = document.getElementById("humBtn");
+  const resultBox = document.getElementById("result");
+  const songResult = document.getElementById("songResult");
+
+  humBtn.addEventListener("click", function () {
+    resultBox.style.display = "block";
+    songResult.innerText = "Listening…";
+
+    fetch("/detect_hum", { method: "POST" })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "success") {
+          songResult.innerText = `🎵 ${data.title} — ${data.artist}`;
+        } else {
+          songResult.innerText = data.message || "No match found";
+        }
+      })
+      .catch(err => {
+        songResult.innerText = "Error occurred.";
+        console.error(err);
+      });
+  });
+});
 
 
 attachEventListeners();

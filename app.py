@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, url_for, request, redirect
+from humming_detection import record_chunk, recognize
 import os
 import random
 import subprocess
@@ -22,6 +23,22 @@ def index():
         })
 
     return render_template('index.html', songs=songs)
+
+@app.route('/detect_hum', methods=['POST'])
+def detect_hum():
+    filename = "static/temp_hum.wav"
+    try:
+        record_chunk(filename, 15, 44100)
+        result = recognize(filename)
+        os.remove(filename)
+        if result:
+            title, artist = result
+            return jsonify({'status': 'success', 'title': title, 'artist': artist})
+        else:
+            return jsonify({'status': 'fail', 'message': 'No match found'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': str(e)})
+
 
 # About page
 @app.route('/about')
